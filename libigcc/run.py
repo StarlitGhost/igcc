@@ -232,14 +232,14 @@ class Runner:
 		return itertools.islice( self.user_input, 0, self.input_num )
 
 	def get_user_commands( self ):
-		return ( a.inp for a in itertools.ifilter(
+		return [ a.inp for a in itertools.ifilter(
 			lambda a: a.typ == UserInput.COMMAND,
-			self.get_user_input() ) )
+			self.get_user_input() ) ]
 
 	def get_user_includes( self ):
-		return ( a.inp for a in itertools.ifilter(
+		return [ a.inp for a in itertools.ifilter(
 			lambda a: a.typ == UserInput.INCLUDE,
-			self.get_user_input() ) )
+			self.get_user_input() ) ]
 
 	def get_user_commands_string( self ):
 		return "\n".join( self.get_user_commands() ) + "\n"
@@ -263,7 +263,7 @@ def parse_args( argv ):
 
 	if len( args ) > 0:
 		parser.error( "Unrecognised arguments :" +
-			" ".join( arg for arg in args ) )
+			" ".join( [ arg for arg in args ] ) )
 
 	return options
 
