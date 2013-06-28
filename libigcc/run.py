@@ -43,7 +43,7 @@ include_dir_command = ( "-I$cmd", )
 lib_dir_command = ( "-L$cmd", )
 lib_command = ( "-l$cmd", )
 
-history_file = '~/.igcc_history'
+history_file = '{0}/.igcc_history'.format(os.environ['HOME'])
 history_size = 1000
 
 #---------------
@@ -290,6 +290,8 @@ def run( outputfile = sys.stdout, inputfile = None, print_welc = True,
 
 			if os.path.isfile(history_file):
 				readline.read_history_file(history_file)
+			else:
+				open(history_file, 'a+').close()
 
 			Runner( options, inputfile, exefilename ).do_run()
 
