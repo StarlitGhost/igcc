@@ -284,8 +284,15 @@ def run( outputfile = sys.stdout, inputfile = None, print_welc = True,
 			ret = "normal"
 			if print_welc:
 				print_welcome()
+
+			readline.read_history_file('~/.igcc_history')
+
 			Runner( options, inputfile, exefilename ).do_run()
+
 		except dot_commands.IGCCQuitException:
+			readline.set_history_length(1000)
+			readline.write_history_file('~/.igcc_history')
+
 			ret = "quit"
 	finally:
 		sys.stdout = real_sys_stdout
