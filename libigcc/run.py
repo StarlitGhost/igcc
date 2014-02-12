@@ -38,6 +38,7 @@ import version
 prompt = "g++> "
 compiler_command = ( "g++", "-x", "c++", "-o", "$outfile", "-",
 	"$include_dirs", "$lib_dirs", "$libs" )
+compiler_version = ( "g++", "--version" )
 
 include_dir_command = ( "-I$cmd", )
 lib_dir_command = ( "-L$cmd", )
@@ -120,6 +121,11 @@ def run_exe( exefilename ):
 	run_process = subprocess.Popen( exefilename,
 		stdout = subprocess.PIPE, stderr = subprocess.PIPE )
 	return run_process.communicate()
+
+def get_compiler_version():
+	run_process = subprocess.Popen( compiler_version, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+	stdout, stderr = run_process.communicate()
+	return stdout.split('\n')[0]
 
 def print_welcome():
 	print '''igcc $version
@@ -227,6 +233,9 @@ class Runner:
 			return undone_input.inp
 		else:
 			return None
+
+	def version( self ):
+		return get_compiler_version()
 
 	def get_user_input( self ):
 		return itertools.islice( self.user_input, 0, self.input_num )

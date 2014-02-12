@@ -19,6 +19,7 @@
 
 import source_code
 import copying
+import version
 
 class IGCCQuitException:
 	pass
@@ -70,6 +71,11 @@ def dot_u( runner ):
 		print "[Nothing to undo.]"
 	return False, False
 
+def dot_v( runner ):
+	print "igcc {0}".format(version.VERSION)
+	print runner.version()
+	return False, False
+
 def dot_w( runner ):
 	print copying.warranty
 	return False, False
@@ -84,6 +90,7 @@ dot_commands = {
 	".n" : ( "Clear all entered commands ('new')", dot_n ),
 	".r" : ( "Redo undone command", dot_r ),
 	".u" : ( "Undo previous command", dot_u ),
+	".v" : ( "Show igcc and compiler version information", dot_v ),
 	".w" : ( "Show warranty information", dot_w ),
 	}
 
