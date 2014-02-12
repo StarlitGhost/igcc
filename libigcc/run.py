@@ -44,6 +44,9 @@ include_dir_command = ( "-I$cmd", )
 lib_dir_command = ( "-L$cmd", )
 lib_command = ( "-l$cmd", )
 
+history_file = '{0}/.igcc_history'.format(os.environ['HOME'])
+history_size = 1000
+
 #---------------
 
 incl_re = re.compile( r"\s*#\s*include\s" )
@@ -293,8 +296,18 @@ def run( outputfile = sys.stdout, inputfile = None, print_welc = True,
 			ret = "normal"
 			if print_welc:
 				print_welcome()
+
+			if os.path.isfile(history_file):
+				readline.read_history_file(history_file)
+			else:
+				open(history_file, 'a+').close()
+
 			Runner( options, inputfile, exefilename ).do_run()
+
 		except dot_commands.IGCCQuitException:
+			readline.set_history_length(history_size)
+			readline.write_history_file(history_file)
+
 			ret = "quit"
 	finally:
 		sys.stdout = real_sys_stdout
