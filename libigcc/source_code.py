@@ -23,6 +23,8 @@ file_boilerplate = """#include <cstdio>
 $user_includes
 using namespace std;
 
+$user_functions
+
 int main()
 {
 	$user_commands
@@ -34,6 +36,7 @@ int main()
 
 def get_full_source( runner ):
 	return ( file_boilerplate
+		.replace( "$user_functions", runner.get_user_functions_string() )
 		.replace( "$user_commands", runner.get_user_commands_string() )
 		.replace( "$user_includes", runner.get_user_includes_string() )
 		)

@@ -167,10 +167,13 @@ class Runner:
 		self.inputfile = inputfile
 		self.exefilename = exefilename
 		self.user_input = []
+		self.user_functions = []
 		self.input_num = 0
 		self.compile_error = ""
 		self.output_chars_printed = 0
 		self.error_chars_printed = 0
+		self.paste = False
+		self.functions_paste = False
 
 	def do_run( self ):
 		read_line = create_read_line_function( self.inputfile, prompt )
@@ -184,7 +187,9 @@ class Runner:
 
 				col_inp, run_cmp = (
 					dot_commands.process( inp, self ) )
-				if col_inp:
+				if self.functions_paste and inp.strip() != '.f':
+					self.user_functions.append(inp)
+				elif col_inp:
 					if self.input_num < len( self.user_input ):
 						self.user_input = self.user_input[ : self.input_num ]
 					if incl_re.match( inp ):
@@ -194,7 +199,7 @@ class Runner:
 					self.user_input.append( UserInput( inp, typ ) )
 					self.input_num += 1
 
-				if run_cmp:
+				if run_cmp and not self.paste and not self.functions_paste:
 					self.compile_error = run_compile( subs_compiler_command,
 						self )
 
@@ -241,8 +246,11 @@ class Runner:
 		return get_compiler_version()
 
 	def get_user_input( self ):
-		return itertools.islice( self.user_input, 0, self.input_num )
+		return itertools.islice( self.user_input, 0, self.input_num)
 
+	def get_user_functions( self ):
+		return self.user_functions
+	
 	def get_user_commands( self ):
 		return [ a.inp for a in itertools.ifilter(
 			lambda a: a.typ == UserInput.COMMAND,
@@ -252,6 +260,9 @@ class Runner:
 		return [ a.inp for a in itertools.ifilter(
 			lambda a: a.typ == UserInput.INCLUDE,
 			self.get_user_input() ) ]
+
+	def get_user_functions_string( self ):
+		return "\n".join( self.get_user_functions() ) + "\n"
 
 	def get_user_commands_string( self ):
 		return "\n".join( self.get_user_commands() ) + "\n"

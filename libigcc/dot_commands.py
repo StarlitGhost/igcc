@@ -36,7 +36,7 @@ def dot_q( runner ):
 	raise IGCCQuitException()
 
 def dot_l( runner ):
-	print "%s\n%s" % ( runner.get_user_includes_string(), runner.get_user_commands_string() )
+	print "%s\n%s\n%s" % ( runner.get_user_includes_string(),  runner.get_user_functions_string(),runner.get_user_commands_string())
 	return False, False
 
 def dot_L( runner ):
@@ -52,6 +52,24 @@ def dot_n( runner ):
 	else:
 		print "[Nothing to undo.]"
 	return False, False
+
+def dot_N( runner):  # Clear ALL including user functions
+	runner.user_functions = []
+	runner.functions_paste = False
+	runner.paste = False
+	return dot_n(runner)
+
+def dot_f( runner):
+	runner.functions_paste = not runner.functions_paste
+	print 'Functions paste mode is ' + ('ON: Enter \".f\" again to return to return to normal editing.' if runner.functions_paste else 'OFF') + '\n'
+	runner.paste = False
+	return False, False 
+
+def dot_p( runner):
+	runner.paste = not runner.paste
+	print 'Paste mode is ' + ('ON: Enter \".f\" again to return to return to normal editing.' if runner.paste else 'OFF') + '\n'
+	runner.functions_paste = False
+	return False, not runner.paste 
 
 def dot_r( runner ):
 	redone_line = runner.redo()
@@ -88,8 +106,11 @@ dot_commands = {
 	".l" : ( "List the code you have entered", dot_l ),
 	".L" : ( "List the whole program as given to the compiler", dot_L ),
 	".n" : ( "Clear all entered commands ('new')", dot_n ),
+	".N" : ( "Clear all entered commands including user functions ('New')", dot_N ),
 	".r" : ( "Redo undone command", dot_r ),
 	".u" : ( "Undo previous command", dot_u ),
+	".p" : ( "Toggle paste mode: useful for multiline snippets", dot_p ),
+	".f" : ( "Toggle functions paste mode", dot_f ),
 	".v" : ( "Show igcc and compiler version information", dot_v ),
 	".w" : ( "Show warranty information", dot_w ),
 	}
