@@ -28,6 +28,40 @@ It is possible to include header files you need like this:
  2
  g++> 
 
+It is possible to include your own functions using '.f':
+
+g++> .f
+Functions paste mode is ON: Enter ".f" again to return to return to normal editing.
+
+g++> int lastIndexOf(char *str, char c) {
+g++>   int ind = -1;
+g++>  for (int i=strlen(b)-1;i>=0;i--) {
+g++>   if (b[i] == c) {
+g++>     ind = i;
+g++>     break;
+g++>   }
+g++>  }
+g++>  return ind;
+g++> }
+g++> .f
+Functions paste mode is OFF
+
+You can use '.p' to enter "Paste" mode to enter multi line snippets :
+
+g++> .p
+Paste mode is ON: Enter ".f" again to return to return to normal editing.
+
+g++> char c = '_';
+g++> char *a = (char *)malloc(80);
+g++> char b[] = "a_another_word_there_last";
+g++> strcpy(a, b[lastIndexOf('_'));
+g++> puts(a);
+g++> .p
+Paste mode is OFF
+
+[Compile error - type .e to see it.]
+
+
 Compile errors can be tolerated until the code works:
 
  $ ./igcc
