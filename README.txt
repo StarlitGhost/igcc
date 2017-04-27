@@ -49,7 +49,7 @@ Functions paste mode is OFF
 You can use '.p' to enter "Paste" mode to enter multi line snippets :
 
 g++> .p
-Paste mode is ON: Enter ".f" again to return to return to normal editing.
+Paste mode is ON: Enter ".p" again to return to return to normal editing.
 
 g++> char c = '_';
 g++> char *a = (char *)malloc(80);

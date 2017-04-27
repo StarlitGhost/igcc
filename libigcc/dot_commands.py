@@ -67,7 +67,7 @@ def dot_f( runner):
 
 def dot_p( runner):
 	runner.paste = not runner.paste
-	print 'Paste mode is ' + ('ON: Enter \".f\" again to return to return to normal editing.' if runner.paste else 'OFF') + '\n'
+	print 'Paste mode is ' + ('ON: Enter \".p\" again to return to return to normal editing.' if runner.paste else 'OFF') + '\n'
 	runner.functions_paste = False
 	return False, not runner.paste 
 
@@ -98,6 +98,7 @@ def dot_w( runner ):
 	print copying.warranty
 	return False, False
 
+# TODO: consider using .n with argument instead of .N
 dot_commands = {
 	".c" : ( "Show copying information", dot_c ),
 	".e" : ( "Show the last compile errors/warnings", dot_e ),
